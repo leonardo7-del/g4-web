@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zero &amp; One Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg-soft: #0e1b2f;
+      --panel: rgba(9, 20, 36, 0.78);
+      --line: rgba(135, 177, 255, 0.18);
+      --text: #eff6ff;
+      --muted: #a8bad3;
+      --accent: #5eead4;
+      --accent-2: #60a5fa;
+      --accent-3: #f59e0b;
+      --shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(96, 165, 250, 0.18), transparent 30%),
+        radial-gradient(circle at 85% 10%, rgba(94, 234, 212, 0.16), transparent 28%),
+        linear-gradient(160deg, #040915 0%, #07111f 45%, #0b1830 100%);
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), transparent 95%);
+      pointer-events: none;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: rgba(7, 17, 31, 0.7);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.9rem;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .brand-mark {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: linear-gradient(145deg, rgba(96, 165, 250, 0.2), rgba(94, 234, 212, 0.16));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .brand-text strong,
+    .hero-copy h1,
+    .section-heading h2,
+    .card h3,
+    .story-block h3 {
+      font-family: "Space Grotesk", sans-serif;
+    }
+
+    .brand-text strong {
+      display: block;
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-text span {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .hero {
+      padding: 4.75rem 0 3rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 0.9rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--accent);
+      font-size: 0.9rem;
+    }
+
+    .hero-copy h1 {
+      margin: 1rem 0;
+      font-size: clamp(2.8rem, 7vw, 5.6rem);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+      max-width: 10ch;
+    }
+
+    .hero-copy p {
+      max-width: 62ch;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.8rem;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 180px;
+      padding: 0.95rem 1.3rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button-primary {
+      color: #03121d;
+      background: linear-gradient(135deg, var(--accent), #7dd3fc);
+      box-shadow: 0 18px 40px rgba(94, 234, 212, 0.22);
+    }
+
+    .button-secondary {
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .hero-panel {
+      position: relative;
+      padding: 1.5rem;
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(13, 25, 46, 0.92), rgba(7, 17, 31, 0.86));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero-panel::before {
+      content: "";
+      position: absolute;
+      inset: auto -20% -30% auto;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.2), transparent 70%);
+    }
+
+    .hero-panel .mini-label {
+      color: var(--accent);
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero-panel h2 {
+      margin: 0.7rem 0 0.8rem;
+      font-size: 1.5rem;
+    }
+
+    .hero-panel p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.8rem;
+      margin-top: 1.4rem;
+    }
+
+    .metric {
+      padding: 1rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 1.4rem;
+      font-family: "Space Grotesk", sans-serif;
+      margin-bottom: 0.35rem;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    section {
+      padding: 2rem 0 4rem;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+    }
+
+    .section-heading p {
+      max-width: 52ch;
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.7;
+    }
+
+    .story-grid,
+    .value-grid {
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    .story-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+
+    .story-block,
+    .card,
+    .banner-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .story-block {
+      padding: 1.8rem;
+    }
+
+    .story-block h3,
+    .card h3 {
+      margin-top: 0;
+      font-size: 1.45rem;
+    }
+
+    .story-block p,
+    .card p,
+    .banner-copy p {
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .story-aside {
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    .card {
+      padding: 1.6rem;
+    }
+
+    .value-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card .tag {
+      display: inline-block;
+      margin-bottom: 0.8rem;
+      color: var(--accent-3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.78rem;
+    }
+
+    .banner-wrap {
+      padding-top: 0.5rem;
+    }
+
+    .banner-card {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      overflow: hidden;
+    }
+
+    .banner-copy {
+      padding: 2rem;
+    }
+
+    .banner-copy h2 {
+      margin: 0 0 1rem;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-family: "Space Grotesk", sans-serif;
+      letter-spacing: -0.04em;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.4rem;
+    }
+
+    .pill {
+      padding: 0.55rem 0.9rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    .banner-visual {
+      min-height: 320px;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(94, 234, 212, 0.28), transparent 24%),
+        radial-gradient(circle at 80% 25%, rgba(96, 165, 250, 0.4), transparent 20%),
+        linear-gradient(150deg, rgba(8, 18, 31, 0.4), rgba(10, 25, 48, 0.9)),
+        linear-gradient(125deg, #07111f, #0e2746);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .banner-visual::before,
+    .banner-visual::after {
+      content: "";
+      position: absolute;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(8px);
+    }
+
+    .banner-visual::before {
+      inset: 16% 18% auto auto;
+      width: 180px;
+      height: 110px;
+      transform: rotate(-8deg);
+    }
+
+    .banner-visual::after {
+      inset: auto auto 14% 12%;
+      width: 220px;
+      height: 140px;
+      transform: rotate(9deg);
+    }
+
+    .footer {
+      padding: 0 0 2.5rem;
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .story-grid,
+      .banner-card,
+      .value-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-heading {
+        align-items: start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav {
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .nav-links {
+        gap: 0.8rem;
+      }
+
+      .hero {
+        padding-top: 3rem;
+      }
+
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .brand-mark {
+        width: 48px;
+        height: 48px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="#inicio" aria-label="Zero &amp; One Studio">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="30" height="30" rx="10" stroke="url(#grad)" stroke-width="2"/>
+            <path d="M11 10.5H15.5V23.5H11V10.5Z" fill="#5EEAD4"/>
+            <path d="M22.5 10.5C19.4624 10.5 17 13.1863 17 16.5C17 19.8137 19.4624 22.5 22.5 22.5C25.5376 22.5 28 19.8137 28 16.5C28 13.1863 25.5376 10.5 22.5 10.5ZM22.5 19.2C21.1289 19.2 20.0179 17.9912 20.0179 16.5C20.0179 15.0088 21.1289 13.8 22.5 13.8C23.8711 13.8 24.9821 15.0088 24.9821 16.5C24.9821 17.9912 23.8711 19.2 22.5 19.2Z" fill="#60A5FA"/>
+            <defs>
+              <linearGradient id="grad" x1="2" y1="2" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#5EEAD4"/>
+                <stop offset="1" stop-color="#60A5FA"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <strong>Zero &amp; One Studio</strong>
+          <span>Software a medida desde Lima</span>
+        </span>
+      </a>
+      <nav class="nav-links" aria-label="Navegacion principal">
+        <a href="#banner">Banner</a>
+        <a href="#historia">Historia</a>
+        <a href="#mision-vision">Mision y Vision</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">Desarrollo web, movil, nube e IA aplicada</span>
+          <h1>Transformamos ideas en sistemas listos para crecer.</h1>
+          <p>
+            Zero &amp; One Studio es una empresa peruana fundada en 2020 que diseña y construye
+            soluciones digitales a medida para pequenas y medianas empresas. Integramos desarrollo
+            moderno, automatizacion de procesos y tecnologia en la nube para acelerar operaciones
+            reales con seguridad, escalabilidad y acompanamiento local en Lima Metropolitana.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#historia">Conocer la empresa</a>
+            <a class="button button-secondary" href="#mision-vision">Ver mision y vision</a>
+          </div>
+        </div>
+
+        <aside class="hero-panel">
+          <span class="mini-label">Banner corporativo</span>
+          <h2>Soluciones confiables, rapidas y pensadas para el negocio.</h2>
+          <p>
+            Desde el levantamiento de requerimientos hasta la puesta en produccion y el soporte
+            continuo, el equipo trabaja con metodologias agiles como Scrum y Kanban para entregar
+            productos web y moviles con impacto medible.
+          </p>
+          <div class="metrics">
+            <div class="metric">
+              <strong>2020</strong>
+              <span>Inicio de operaciones</span>
+            </div>
+            <div class="metric">
+              <strong>PYMES</strong>
+              <span>Foco en crecimiento digital</span>
+            </div>
+            <div class="metric">
+              <strong>Lima</strong>
+              <span>Soporte local cercano</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="banner" class="banner-wrap">
+      <div class="container">
+        <div class="banner-card">
+          <div class="banner-copy">
+            <h2>Banner de Zero &amp; One Studio</h2>
+            <p>
+              Impulsamos la digitalizacion de empresas de retail, logistica, educacion y servicios
+              profesionales con software personalizado, infraestructura moderna y procesos mas
+              inteligentes.
+            </p>
+            <div class="pill-list">
+              <span class="pill">Aplicaciones web y moviles</span>
+              <span class="pill">Automatizacion de procesos</span>
+              <span class="pill">Cloud moderno</span>
+              <span class="pill">IA aplicada al negocio</span>
+            </div>
+          </div>
+          <div class="banner-visual" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="historia">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Historia</h2>
+          <p>
+            Una empresa creada para ayudar a las PYMES a modernizar su operacion con soluciones
+            accesibles, escalables y alineadas con objetivos reales de negocio.
+          </p>
+        </div>
+
+        <div class="story-grid">
+          <article class="story-block">
+            <h3>De Lima para empresas que quieren avanzar</h3>
+            <p>
+              Zero &amp; One Studio fue fundada en el ano 2020 en la Av. Carlos Izaguirre 120,
+              Independencia, Lima, con la idea de acercar tecnologia de alto nivel a pequenas y
+              medianas empresas que necesitaban digitalizar sus procesos sin depender de soluciones
+              genericas.
+            </p>
+            <p>
+              Desde sus primeros proyectos, la empresa se enfoco en construir software a medida,
+              acompanando a sus clientes desde el levantamiento de requerimientos hasta la puesta en
+              produccion y el soporte continuo. Esa cercania ha permitido desarrollar relaciones de
+              confianza y entregas rapidas con una mirada clara en seguridad, rendimiento y crecimiento.
+            </p>
+          </article>
+
+          <div class="story-aside">
+            <article class="card">
+              <span class="tag">Metodologia</span>
+              <h3>Trabajo agil y colaborativo</h3>
+              <p>
+                El equipo desarrolla bajo enfoques Scrum y Kanban, adaptando cada proyecto al ritmo
+                del cliente para mantener visibilidad, velocidad de implementacion y mejora continua.
+              </p>
+            </article>
+
+            <article class="card">
+              <span class="tag">Especializacion</span>
+              <h3>Soluciones digitales con enfoque practico</h3>
+              <p>
+                Sus proyectos combinan aplicaciones web y moviles, automatizacion, nube e
+                inteligencia artificial aplicada al negocio para resolver problemas operativos
+                concretos en distintos sectores.
+              </p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="mision-vision">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Mision y Vision</h2>
+          <p>
+            La propuesta de valor de Zero &amp; One Studio se centra en entregar tecnologia util,
+            segura y cercana para empresas que necesitan resultados tangibles.
+          </p>
+        </div>
+
+        <div class="value-grid">
+          <article class="card">
+            <span class="tag">Mision</span>
+            <h3>Construir soluciones digitales que simplifiquen y potencien operaciones.</h3>
+            <p>
+              Disenar y desarrollar software a medida para PYMES, integrando tecnologias modernas de
+              nube, automatizacion e inteligencia artificial para mejorar la eficiencia, la toma de
+              decisiones y la competitividad de cada cliente.
+            </p>
+          </article>
+
+          <article class="card">
+            <span class="tag">Vision</span>
+            <h3>Ser un aliado tecnologico referente para la transformacion digital en el Peru.</h3>
+            <p>
+              Liderar la adopcion de soluciones confiables, escalables y de rapida implementacion,
+              destacando por la calidad tecnica, el soporte local y la capacidad de traducir
+              necesidades empresariales en productos digitales sostenibles.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span>Zero &amp; One Studio</span>
+      <span>Av. Carlos Izaguirre 120, Independencia, Lima</span>
+    </div>
+  </footer>
+</body>
+</html>
